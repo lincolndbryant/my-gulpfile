@@ -112,6 +112,12 @@ gulp.task 'specs', ->
   .pipe(concat('spec.js'))
   .pipe(gulp.dest(destinations.spec))
 
+gulp.task 'test', [
+  'build'
+  'testServer'
+  'watch'
+]
+
 gulp.task 'bower-files', ->
   bower()
     .pipe(concat('vendor.js'))
@@ -119,18 +125,12 @@ gulp.task 'bower-files', ->
 
 gulp.task 'default', [
   'bower-files'
-  'scripts2'
+  'browserify-src'
   'connect'
   'watch'
 ]
 
-gulp.task 'test', [
-  'build'
-  'testServer'
-  'watch'
-]
-
-gulp.task 'scripts2', ->
+gulp.task 'browserify-src', ->
   gulp.src('src/js/app.coffee', read: false)
     .pipe(browserify({
       transform: ['coffeeify'],
